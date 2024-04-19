@@ -1,0 +1,17 @@
+.AnchorPane {
+    -fx-background-color: #edebe1;
+}
+
+.Button {
+    -fx-background-color: #d8c47c;
+}
+
+.Button:hover {
+    -fx-background-color: #e4e088;
+}
+
+.Button:pressed {
+    -fx-background-color: #8f8451;
+    -fx-text-fill: white;
+}
+

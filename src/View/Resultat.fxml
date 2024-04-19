@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.ResultatController" prefHeight="800.0" prefWidth="1300.0" styleClass="AnchorPane">
+    <children>
+        <ImageView fitHeight="138.0" fitWidth="113.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Image/logoJO2024.png" />
+            </image>
+        </ImageView>
+        <Text fill="#8f8451" layoutX="510.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Les résultats" textAlignment="CENTER" wrappingWidth="278.93670654296875">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Text>
+    </children>
+</AnchorPane>

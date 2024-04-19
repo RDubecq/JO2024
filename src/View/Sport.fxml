@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SportController">
+    <children>
+        <ImageView fitHeight="138.0" fitWidth="113.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Image/logoJO2024.png" />
+            </image>
+        </ImageView>
+        <Text fill="#8f8451" layoutX="510.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Les sports" textAlignment="CENTER" wrappingWidth="278.93670654296875">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Text>
+      <Button layoutX="575.0" layoutY="467.0" mnemonicParsing="false" onAction="#print" text="Button" />
+    </children>
+</AnchorPane>
