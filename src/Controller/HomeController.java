@@ -18,12 +18,14 @@ public class HomeController {
         dao.UploadData();
     }
 
-    public void GoToAthlete() throws IOException {
+    public void GoToAthlete() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete.fxml"));
         Parent root = loader.load();
 
+        dao.refreshDatabase();
         AthleteController athleteController = loader.getController();
         athleteController.initData(dao);
+        athleteController.DisplayData();
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());

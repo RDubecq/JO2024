@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1300.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
    <children>
       <ImageView fitHeight="138.0" fitWidth="113.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -24,17 +24,17 @@
       </Text>
       <HBox alignment="CENTER" layoutX="355.0" layoutY="125.0" prefHeight="36.0" prefWidth="590.0" spacing="50.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#DisplayData" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Ajouter un athlète">
+            <Button mnemonicParsing="false" onAction="#AddAthleteWindow" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Ajouter un athlète">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Modifier un athlète">
+            <Button mnemonicParsing="false" onAction="#EditAthleteWindow" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Modifier un athlète">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Supprimer un athlète">
+            <Button mnemonicParsing="false" onAction="#DeleteAthleteWindow" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Supprimer un athlète">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

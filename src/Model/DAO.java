@@ -69,6 +69,10 @@ public class DAO {
         System.out.println("");
     }
 
+    public void refreshDatabase() throws SQLException {
+        UploadData();
+    }
+
     private void ClearData() {
         sports.clear();
         evenements.clear();

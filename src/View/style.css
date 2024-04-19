@@ -47,6 +47,7 @@
 
 #AthletesTable .table-row-cell:hover {
     -fx-background-color: white;
+    -fx-font-weight: bold;
 }
 
 
