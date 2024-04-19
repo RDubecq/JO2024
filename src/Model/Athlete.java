@@ -9,16 +9,16 @@ public class Athlete {
     private Date Naissance;
     private String Pays;
     private String Sexe;
-    private int IdSport;
+    private String NomSport;
 
-    public Athlete(int idAthlete, String prenom, String nom, Date naissance, String pays, String sexe, int idSport) {
+    public Athlete(int idAthlete, String prenom, String nom, Date naissance, String pays, String sexe, String nomSport) {
         IdAthlete = idAthlete;
         Prenom = prenom;
         Nom = nom;
         Naissance = naissance;
         Pays = pays;
         Sexe = sexe;
-        this.IdSport = IdSport;
+        NomSport = nomSport;
     }
 
     public int getIdAthlete() {
@@ -63,10 +63,10 @@ public class Athlete {
         Sexe = sexe;
     }
 
-    public int getIdSport() {
-        return IdSport;
+    public String getNomSport() {
+        return NomSport;
     }
-    public void setIdSport(int IdSport) {
-        this.IdSport = IdSport;
+    public void setNomSport(String nomSport) {
+        NomSport = nomSport;
     }
 }

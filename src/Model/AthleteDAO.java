@@ -11,7 +11,7 @@ public class AthleteDAO {
         ResultSet resultSet = null;
 
         try {
-            String query = "SELECT * FROM athlete";
+            String query = "SELECT Athlete.*, Sport.Sport AS NomSport FROM Athlete " + "JOIN Sport ON Athlete.Sport_IdSport = Sport.IdSport";
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
@@ -22,8 +22,8 @@ public class AthleteDAO {
                 Date naissance = resultSet.getDate("Naissance");
                 String pays = resultSet.getString("Pays");
                 String sexe = resultSet.getString("Sexe");
-                int idsport = resultSet.getInt("Sport_IdSport");
-                Athlete athlete = new Athlete(id, prenom, nom, naissance, pays, sexe, idsport);
+                String sport = resultSet.getString("NomSport");
+                Athlete athlete = new Athlete(id, prenom, nom, naissance, pays, sexe, sport);
                 athletes.add(athlete);
             }
         } catch (SQLException e) {

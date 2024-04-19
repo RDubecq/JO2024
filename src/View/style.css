@@ -1,7 +1,12 @@
+
+/* ANCHOR PANE */
 .AnchorPane {
     -fx-background-color: #edebe1;
 }
 
+
+
+/* BUTTON */
 .Button {
     -fx-background-color: #d8c47c;
 }
@@ -14,4 +19,34 @@
     -fx-background-color: #8f8451;
     -fx-text-fill: white;
 }
+
+
+
+/* TABLEAU ATHLETES */
+#AthletesTable {
+    -fx-font-size: 14px;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+#AthletesTable .table-cell {
+    -fx-alignment: CENTER;
+}
+
+#AthletesTable .column-header {
+    -fx-background-color: #d8c47c;
+}
+
+#AthletesTable .table-row-cell:even {
+    -fx-background-color: #f5edd3;
+}
+
+#AthletesTable .table-row-cell:odd {
+    -fx-background-color: #fceebd;
+}
+
+#AthletesTable .table-row-cell:hover {
+    -fx-background-color: white;
+}
+
 

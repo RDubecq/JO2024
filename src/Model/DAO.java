@@ -59,7 +59,7 @@ public class DAO {
         System.out.println("");
         System.out.println("Athletes");
         for (Athlete athlete : athletes) {
-            System.out.println(athlete.getIdAthlete() + " " + athlete.getPrenom() + " " + athlete.getNom() + " " + athlete.getNaissance() + " " + athlete.getPays() + " " + athlete.getSexe() + " " + athlete.getIdSport());
+            System.out.println(athlete.getIdAthlete() + " " + athlete.getPrenom() + " " + athlete.getNom() + " " + athlete.getNaissance() + " " + athlete.getPays() + " " + athlete.getSexe() + " " + athlete.getNomSport());
         }
         System.out.println("");
         System.out.println("Resultats");
