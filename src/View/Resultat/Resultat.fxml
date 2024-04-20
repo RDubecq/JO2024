@@ -10,7 +10,7 @@
     <children>
         <ImageView fitHeight="138.0" fitWidth="113.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@Image/logoJO2024.png" />
+                <Image url="@../Image/logoJO2024.png" />
             </image>
         </ImageView>
         <Text fill="#8f8451" layoutX="510.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Les résultats" textAlignment="CENTER" wrappingWidth="278.93670654296875">

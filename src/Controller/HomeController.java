@@ -19,7 +19,7 @@ public class HomeController {
     }
 
     public void GoToAthlete() throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete/Athlete.fxml"));
         Parent root = loader.load();
 
         dao.refreshDatabase();
@@ -38,7 +38,7 @@ public class HomeController {
     }
 
     public void GoToSport() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Sport.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Sport/Sport.fxml"));
         Parent root = loader.load();
 
         SportController sportController = loader.getController();
@@ -55,7 +55,7 @@ public class HomeController {
     }
 
     public void GoToEvenement() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/Evenement.fxml"));
         Parent root = loader.load();
 
         EvenementController evenementController = loader.getController();
@@ -72,7 +72,7 @@ public class HomeController {
     }
 
     public void GoToResultat() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Resultat.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Resultat/Resultat.fxml"));
         Parent root = loader.load();
 
         ResultatController resultatController = loader.getController();

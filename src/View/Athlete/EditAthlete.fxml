@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="EditAthlete" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
+<AnchorPane id="EditAthlete" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
     <children>
-        <VBox layoutX="84.0" layoutY="14.0" prefHeight="253.0" prefWidth="234.0" spacing="15.0">
+        <VBox layoutX="83.0" layoutY="130.0" prefHeight="253.0" prefWidth="234.0" spacing="15.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom">
                     <font>
@@ -22,29 +22,14 @@
                         <Font name="System Bold" size="14.0" />
                     </font></Text>
                 <TextField fx:id="EditAthlete_Prenom" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pays">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font></Text>
-                <TextField fx:id="EditAthlete_Pays" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sexe">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font></Text>
-                <TextField fx:id="EditAthlete_Sexe" />
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date de naissance (dd/mm/yyyy)">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font></Text>
                 <TextField fx:id="EditAthlete_Naissance" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sport">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font></Text>
-                <TextField fx:id="EditAthlete_Sport" />
             </children>
         </VBox>
-        <HBox alignment="CENTER" layoutX="48.0" layoutY="477.0" prefHeight="42.0" prefWidth="323.0" spacing="30.0">
+        <HBox alignment="CENTER" layoutX="40.0" layoutY="393.0" prefHeight="42.0" prefWidth="323.0" spacing="30.0">
             <children>
                 <Button mnemonicParsing="false" onAction="#EditAthleteGetData" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Modifier l'athlète">
                     <font>
@@ -56,5 +41,10 @@
                     </font></Button>
             </children>
         </HBox>
+      <Text layoutX="85.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entrez les informations de l'ahlète à modifier :" textAlignment="CENTER" wrappingWidth="234.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>

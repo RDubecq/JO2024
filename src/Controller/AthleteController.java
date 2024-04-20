@@ -50,13 +50,7 @@ public class AthleteController {
     @FXML
     private TextField EditAthlete_Prenom;
     @FXML
-    private TextField EditAthlete_Pays;
-    @FXML
-    private TextField EditAthlete_Sexe;
-    @FXML
     private TextField EditAthlete_Naissance;
-    @FXML
-    private TextField EditAthlete_Sport;
 
     @FXML
     private TextField DeleteAthlete_Nom;
@@ -169,7 +163,7 @@ public class AthleteController {
 
     // ADD ATHLETE
     public void AddAthleteWindow() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AddAthlete.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete/AddAthlete.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
@@ -255,7 +249,7 @@ public class AthleteController {
 
     // EDIT ATHLETE
     public void EditAthleteWindow() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/EditAthlete.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete/EditAthlete.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
@@ -269,29 +263,17 @@ public class AthleteController {
     public void EditAthleteClear() {
         EditAthlete_Nom.clear();
         EditAthlete_Prenom.clear();
-        EditAthlete_Pays.clear();
-        EditAthlete_Sexe.clear();
         EditAthlete_Naissance.clear();
-        EditAthlete_Sport.clear();
     }
 
     public void EditAthleteGetData() throws SQLException {
-        Connection connection = dao.getConnection();
-
         if (ValidDate(EditAthlete_Naissance.getText())) {
             String nom = EditAthlete_Nom.getText();
             String prenom = EditAthlete_Prenom.getText();
-            String pays = EditAthlete_Pays.getText();
-            String sexe = EditAthlete_Sexe.getText();
             String naissance = EditAthlete_Naissance.getText();
-            String sport = EditAthlete_Sport.getText();
 
-            if (!nom.isEmpty() && !prenom.isEmpty() && !pays.isEmpty() && !sexe.isEmpty() && !sport.isEmpty()) {
-                if (ValidSport(connection, sport)) {
-                    EditAthlete(nom, prenom, pays, sexe, naissance, sport);
-                } else {
-                    AlertMessage(Alert.AlertType.ERROR, "Erreur", "Sport invalide", "Le sport indiqué n'est pas présent dans la base de données.");
-                }
+            if (!nom.isEmpty() && !prenom.isEmpty() && !naissance.isEmpty()) {
+                EditAthlete(nom, prenom, naissance);
             } else {
                 AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
             }
@@ -300,7 +282,7 @@ public class AthleteController {
         }
     }
 
-    public void EditAthlete(String nom, String prenom, String pays, String sexe, String dateNaissance, String sport) {
+    public void EditAthlete(String nom, String prenom, String dateNaissance) {
 
     }
 
@@ -309,7 +291,7 @@ public class AthleteController {
 
     // DELETE ATHLETE
     public void DeleteAthleteWindow() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/DeleteAthlete.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete/DeleteAthlete.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
