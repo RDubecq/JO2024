@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="DeleteAthlete" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
+<AnchorPane id="DeleteAthlete" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
     <children>
         <VBox layoutX="84.0" layoutY="129.0" prefHeight="146.0" prefWidth="234.0" spacing="15.0">
             <children>
@@ -22,9 +22,14 @@
                         <Font name="System Bold" size="14.0" />
                     </font></Text>
                 <TextField fx:id="DeleteAthlete_Prenom" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date de naissance (dd/mm/yyyy)">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Text>
+                <TextField fx:id="DeleteAthlete_Naissance" />
             </children>
         </VBox>
-        <HBox alignment="CENTER" layoutX="39.0" layoutY="320.0" prefHeight="42.0" prefWidth="323.0" spacing="30.0">
+        <HBox alignment="CENTER" layoutX="40.0" layoutY="374.0" prefHeight="42.0" prefWidth="323.0" spacing="30.0">
             <children>
                 <Button mnemonicParsing="false" onAction="#DeleteAthleteGetData" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Supprimer l'athlète">
                     <font>

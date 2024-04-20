@@ -62,6 +62,8 @@ public class AthleteController {
     private TextField DeleteAthlete_Nom;
     @FXML
     private TextField DeleteAthlete_Prenom;
+    @FXML
+    private TextField DeleteAthlete_Naissance;
 
     private ArrayList<Athlete> athletes = new ArrayList<>();
     private DAO dao = new DAO();
@@ -214,15 +216,16 @@ public class AthleteController {
 
     public void AddAthlete(String nom, String prenom, String pays, String sexe, String dateNaissance, String sport) throws SQLException {
         Connection connection = dao.getConnection();
-        String queryCheck = "SELECT COUNT(*) FROM Athlete WHERE Nom = ? AND Prenom = ?";
+        String queryCheck = "SELECT COUNT(*) FROM Athlete WHERE Nom = ? AND Prenom = ? AND Naissance = ?";
         String queryInsert = "INSERT INTO Athlete (Nom, Prenom, Naissance, Pays, Sexe, Sport_IdSport) VALUES (?, ?, ?, ?, ?, (SELECT IdSport FROM Sport WHERE Sport = ?))";
 
         try (PreparedStatement checkStatement = connection.prepareStatement(queryCheck)) {
             checkStatement.setString(1, nom);
             checkStatement.setString(2, prenom);
+            checkStatement.setDate(3, StringToDate(dateNaissance));
             ResultSet resultSet = checkStatement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
-                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Athlète déjà enregistré.", "Vous ne pouvez pas enregistré deux fois le même athlète.");
+                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Athlète déjà enregistré.", "Vous ne pouvez pas enregistrer deux fois le même athlète.");
             } else {
                 try (PreparedStatement insertStatement = connection.prepareStatement(queryInsert)) {
                     insertStatement.setString(1, nom);
@@ -320,26 +323,33 @@ public class AthleteController {
     public void DeleteAthleteClear() {
         DeleteAthlete_Nom.clear();
         DeleteAthlete_Prenom.clear();
+        DeleteAthlete_Naissance.clear();
     }
 
     public void DeleteAthleteGetData() throws SQLException {
-        String nom = DeleteAthlete_Nom.getText();
-        String prenom = DeleteAthlete_Prenom.getText();
+        if (ValidDate(DeleteAthlete_Naissance.getText())) {
+            String nom = DeleteAthlete_Nom.getText();
+            String prenom = DeleteAthlete_Prenom.getText();
+            String naissance = DeleteAthlete_Naissance.getText();
 
-        if (!nom.isEmpty() && !prenom.isEmpty()) {
-            DeleteAthlete(nom, prenom);
+            if (!nom.isEmpty() && !prenom.isEmpty() && !naissance.isEmpty()) {
+                DeleteAthlete(nom, prenom, naissance);
+            } else {
+                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
+            }
         } else {
-            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
+            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Erreur de format de date", "Veuillez entrer une date au format dd/mm/yyyy");
         }
     }
 
-    public void DeleteAthlete(String nom, String prenom) throws SQLException {
+    public void DeleteAthlete(String nom, String prenom, String dateNaissance) throws SQLException {
         Connection connection = dao.getConnection();
-        String query = "DELETE FROM Athlete WHERE Nom = ? AND Prenom = ?";
+        String query = "DELETE FROM Athlete WHERE Nom = ? AND Prenom = ? AND Naissance = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, nom);
             statement.setString(2, prenom);
+            statement.setDate(3, StringToDate(dateNaissance));
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -353,4 +363,5 @@ public class AthleteController {
             throw e;
         }
     }
+
 }
