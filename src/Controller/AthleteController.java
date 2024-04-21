@@ -9,11 +9,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -32,6 +30,15 @@ import java.util.Date;
 public class AthleteController {
     @FXML
     private TableView AthletesTable;
+
+    @FXML
+    private AnchorPane AddAthlete;
+    @FXML
+    private AnchorPane DeleteAthlete;
+    @FXML
+    private AnchorPane EditAthlete;
+    @FXML
+    private AnchorPane EditAthlete2;
 
     @FXML
     private TextField AddAthlete_Nom;
@@ -73,53 +80,53 @@ public class AthleteController {
     @FXML
     private TextField EditAthlete2_Sport;
 
-    @FXML
-    private Text TextEditAthlete2_Nom;
-    @FXML
-    private Text TextEditAthlete2_Prenom;
-    @FXML
-    private Text TextEditAthlete2_Pays;
-    @FXML
-    private Text TextEditAthlete2_Sexe;
-    @FXML
-    private Text TextEditAthlete2_Naissance;
-    @FXML
-    private Text TextEditAthlete2_Sport;
-
     private ArrayList<Athlete> athletes = new ArrayList<>();
     private DAO dao = new DAO();
-
-    private Stage AddAthleteWindow = new Stage();
 
 
 
 
     public void initData(DAO dao) {
+        athletes.clear();
         athletes.addAll(dao.getAthletes());
     }
 
     public void DisplayData() {
-        TableColumn<Athlete, String> nomColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(0);
-        nomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNom()));
+        if (AthletesTable != null) {
+            TableColumn<Athlete, String> nomColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(0);
+            nomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNom()));
 
-        TableColumn<Athlete, String> prenomColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(1);
-        prenomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrenom()));
+            TableColumn<Athlete, String> prenomColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(1);
+            prenomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrenom()));
 
-        TableColumn<Athlete, String> paysColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(2);
-        paysColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPays()));
+            TableColumn<Athlete, String> paysColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(2);
+            paysColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPays()));
 
-        TableColumn<Athlete, String> sexeColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(3);
-        sexeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSexe()));
+            TableColumn<Athlete, String> sexeColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(3);
+            sexeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSexe()));
 
-        TableColumn<Athlete, String> ageColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(4);
-        ageColumn.setCellValueFactory(data -> new SimpleStringProperty(DateToString(data.getValue().getNaissance())));
+            TableColumn<Athlete, String> ageColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(4);
+            ageColumn.setCellValueFactory(data -> new SimpleStringProperty(DateToString(data.getValue().getNaissance())));
 
-        TableColumn<Athlete, String> sportColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(5);
-        sportColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNomSport()));
+            TableColumn<Athlete, String> sportColumn = (TableColumn<Athlete, String>) AthletesTable.getColumns().get(5);
+            sportColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNomSport()));
 
-        ObservableList<Athlete> observableList = FXCollections.observableArrayList();
-        observableList.addAll(athletes);
-        AthletesTable.setItems(observableList);
+            ObservableList<Athlete> observableList = FXCollections.observableArrayList();
+            observableList.addAll(athletes);
+            AthletesTable.setItems(observableList);
+        } else {
+            System.out.println("BUG");
+        }
+    }
+
+    private void RefreshTable() throws SQLException {
+        dao.refreshDatabase();
+        initData(dao);
+
+        for (Athlete athlete : athletes) {
+            //System.out.println(athlete.getNom());
+        }
+        DisplayData();
     }
 
     private static String DateToString(Date date) {
@@ -131,6 +138,10 @@ public class AthleteController {
     }
 
     private java.sql.Date StringToDate(String dateString) throws SQLException {
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
+
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate date = LocalDate.parse(dateString, formatter);
@@ -187,6 +198,11 @@ public class AthleteController {
         alert.showAndWait();
     }
 
+    private void CloseWindow(AnchorPane anchorPane) {
+        Stage stage = (Stage) anchorPane.getScene().getWindow();
+        stage.close();
+    }
+
 
 
 
@@ -196,6 +212,7 @@ public class AthleteController {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
+        Stage AddAthleteWindow = new Stage();
         AddAthleteWindow.setScene(scene);
         AddAthleteWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
         AddAthleteWindow.setTitle("Ajouter un athlète");
@@ -261,7 +278,8 @@ public class AthleteController {
 
                     AddAthleteClear();
                     AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
-                    //AddAthleteWindow.close();
+                    CloseWindow(AddAthlete);
+                    RefreshTable();
                 } catch (SQLException e) {
                     System.err.println(e.getMessage());
                     throw e;
@@ -354,6 +372,7 @@ public class AthleteController {
                         TextEditAthlete2_Sport.setText(sportAthlete);
 
                         EditAthleteClear1();
+                        CloseWindow(EditAthlete);
                     }
                 } else {
                     AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données inconnues", "Ces données ne sont pas dans la base de données.");
@@ -374,30 +393,37 @@ public class AthleteController {
     public void EditAthleteGetData2() throws SQLException {
         Connection connection = dao.getConnection();
 
-        if (ValidDate(EditAthlete2_Naissance.getText())) {
-            String nom = EditAthlete2_Nom.getText();
-            String prenom = EditAthlete2_Prenom.getText();
-            String pays = EditAthlete2_Pays.getText();
-            String sexe = EditAthlete2_Sexe.getText();
-            String naissance = EditAthlete2_Naissance.getText();
-            String sport = EditAthlete2_Sport.getText();
+        String nom = EditAthlete2_Nom.getText();
+        String prenom = EditAthlete2_Prenom.getText();
+        String pays = EditAthlete2_Pays.getText();
+        String sexe = EditAthlete2_Sexe.getText();
+        String naissance = EditAthlete2_Naissance.getText();
+        String sport = EditAthlete2_Sport.getText();
 
-            if (!nom.isEmpty() && !prenom.isEmpty() && !pays.isEmpty() && !sexe.isEmpty() && !sport.isEmpty()) {
+        if (!nom.isEmpty() || !prenom.isEmpty() || !pays.isEmpty() || !sexe.isEmpty() || !sport.isEmpty()) {
+            if (!naissance.isEmpty()) {
+                if (ValidDate(EditAthlete2_Naissance.getText())) {
+                    EditAthlete2(nom, prenom, pays, sexe, naissance, sport);
+                } else {
+                    AlertMessage(Alert.AlertType.ERROR, "Erreur", "Erreur de format de date", "Veuillez entrer une date au format dd/mm/yyyy");
+                }
+            } else if (!sport.isEmpty()) {
                 if (ValidSport(connection, sport)) {
                     EditAthlete2(nom, prenom, pays, sexe, naissance, sport);
                 } else {
                     AlertMessage(Alert.AlertType.ERROR, "Erreur", "Sport invalide", "Le sport indiqué n'est pas présent dans la base de données.");
                 }
             } else {
-                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
+                EditAthlete2(nom, prenom, pays, sexe, naissance, sport);
             }
         } else {
-            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Erreur de format de date", "Veuillez entrer une date au format dd/mm/yyyy");
+            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir au moins un champs.");
         }
     }
 
-    public void EditAthlete2(String nom, String prenom, String pays, String sexe, String naissance, String sport) {
-
+    public void EditAthlete2(String nom, String prenom, String pays, String sexe, String naissance, String sport) throws SQLException {
+        System.out.println("à faire");
+        CloseWindow(EditAthlete2);
     }
 
 
@@ -453,6 +479,8 @@ public class AthleteController {
             } else {
                 AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
                 DeleteAthleteClear();
+                CloseWindow(DeleteAthlete);
+                RefreshTable();
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

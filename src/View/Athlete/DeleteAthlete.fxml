@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="DeleteAthlete" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
+<AnchorPane fx:id="DeleteAthlete" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
     <children>
         <VBox layoutX="84.0" layoutY="129.0" prefHeight="146.0" prefWidth="234.0" spacing="15.0">
             <children>
