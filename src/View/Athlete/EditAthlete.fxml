@@ -31,11 +31,11 @@
         </VBox>
         <HBox alignment="CENTER" layoutX="40.0" layoutY="393.0" prefHeight="42.0" prefWidth="323.0" spacing="30.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#EditAthleteGetData" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Modifier l'athlète">
+                <Button mnemonicParsing="false" onAction="#EditAthleteGetData1" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Modifier l'athlète">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font></Button>
-                <Button mnemonicParsing="false" onAction="#EditAthleteClear" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Supprimer">
+                <Button mnemonicParsing="false" onAction="#EditAthleteClear1" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Supprimer">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font></Button>
