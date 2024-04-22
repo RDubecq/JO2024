@@ -22,30 +22,29 @@
 
 
 
-/* TABLEAU ATHLETES */
-#AthletesTable {
+#Table {
     -fx-font-size: 14px;
     -fx-hbar-policy: never;
     -fx-vbar-policy: never;
 }
 
-#AthletesTable .table-cell {
+#Table .table-cell {
     -fx-alignment: CENTER;
 }
 
-#AthletesTable .column-header {
+#Table .column-header {
     -fx-background-color: #d8c47c;
 }
 
-#AthletesTable .table-row-cell:even {
+#Table .table-row-cell:even {
     -fx-background-color: #f5edd3;
 }
 
-#AthletesTable .table-row-cell:odd {
+#Table .table-row-cell:odd {
     -fx-background-color: #fceebd;
 }
 
-#AthletesTable .table-row-cell:hover {
+#Table .table-row-cell:hover {
     -fx-background-color: white;
     -fx-font-weight: bold;
 }

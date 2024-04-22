@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AthleteController {
     @FXML
@@ -79,6 +80,11 @@ public class AthleteController {
     private TextField EditAthlete2_Naissance;
     @FXML
     private TextField EditAthlete2_Sport;
+
+    @FXML
+    private Text TextEditAthlete2_Nom;
+    @FXML
+    private Text TextEditAthlete2_Prenom;
 
     private ArrayList<Athlete> athletes = new ArrayList<>();
     private DAO dao = new DAO();
@@ -393,6 +399,9 @@ public class AthleteController {
     public void EditAthleteGetData2() throws SQLException {
         Connection connection = dao.getConnection();
 
+        String originalNom = TextEditAthlete2_Nom.getText();
+        String originalPrenom = TextEditAthlete2_Prenom.getText();
+
         String nom = EditAthlete2_Nom.getText();
         String prenom = EditAthlete2_Prenom.getText();
         String pays = EditAthlete2_Pays.getText();
@@ -403,28 +412,98 @@ public class AthleteController {
         if (!nom.isEmpty() || !prenom.isEmpty() || !pays.isEmpty() || !sexe.isEmpty() || !sport.isEmpty()) {
             if (!naissance.isEmpty()) {
                 if (ValidDate(EditAthlete2_Naissance.getText())) {
-                    EditAthlete2(nom, prenom, pays, sexe, naissance, sport);
+                    EditAthlete2(nom, prenom, pays, sexe, naissance, sport, originalNom, originalPrenom);
                 } else {
                     AlertMessage(Alert.AlertType.ERROR, "Erreur", "Erreur de format de date", "Veuillez entrer une date au format dd/mm/yyyy");
                 }
             } else if (!sport.isEmpty()) {
                 if (ValidSport(connection, sport)) {
-                    EditAthlete2(nom, prenom, pays, sexe, naissance, sport);
+                    EditAthlete2(nom, prenom, pays, sexe, naissance, sport, originalNom, originalPrenom);
                 } else {
                     AlertMessage(Alert.AlertType.ERROR, "Erreur", "Sport invalide", "Le sport indiqué n'est pas présent dans la base de données.");
                 }
             } else {
-                EditAthlete2(nom, prenom, pays, sexe, naissance, sport);
+                EditAthlete2(nom, prenom, pays, sexe, naissance, sport, originalNom, originalPrenom);
             }
         } else {
             AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir au moins un champs.");
         }
     }
 
-    public void EditAthlete2(String nom, String prenom, String pays, String sexe, String naissance, String sport) throws SQLException {
+    public void EditAthlete2(String nom, String prenom, String pays, String sexe, String naissance, String sport, String originalNom, String originalPrenom) throws SQLException {
         System.out.println("à faire");
         CloseWindow(EditAthlete2);
+
+        /*
+        Connection connection = dao.getConnection();
+        String querySelect = "SELECT * FROM Athlete WHERE Nom = ? AND Prenom = ?";
+
+        try (PreparedStatement selectStatement = connection.prepareStatement(querySelect)) {
+            selectStatement.setString(1, originalNom);
+            selectStatement.setString(2, originalPrenom);
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int idAthlete = resultSet.getInt("IdAthlete");
+
+                // Mettre à jour uniquement les champs modifiés
+                StringBuilder queryUpdate = new StringBuilder("UPDATE Athlete SET ");
+                List<Object> parameters = new ArrayList<>();
+
+                if (nom != null && !nom.equals(originalNom)) {
+                    queryUpdate.append("Nom = ?, ");
+                    parameters.add(nom);
+                } else {
+                    queryUpdate.append("Nom = ?, ");
+                    parameters.add(originalNom);
+                }
+                if (prenom != null && !prenom.equals(originalPrenom)) {
+                    queryUpdate.append("Prenom = ?, ");
+                    parameters.add(prenom);
+                } else {
+                    queryUpdate.append("Prenom = ?, ");
+                    parameters.add(originalPrenom);
+                }
+                // Ajoutez d'autres conditions pour les autres champs ici
+
+                // Supprimez la dernière virgule
+                queryUpdate.setLength(queryUpdate.length() - 2);
+
+                // Ajoutez la clause WHERE
+                queryUpdate.append(" WHERE IdAthlete = ?");
+                parameters.add(idAthlete);
+
+                try (PreparedStatement updateStatement = connection.prepareStatement(queryUpdate.toString())) {
+                    // Définissez les paramètres
+                    for (int i = 0; i < parameters.size(); i++) {
+                        Object parameter = parameters.get(i);
+                        if (parameter instanceof String) {
+                            updateStatement.setString(i + 1, (String) parameter);
+                        } else if (parameter instanceof Integer) {
+                            updateStatement.setInt(i + 1, (int) parameter);
+                        } else if (parameter instanceof Date) {
+                            updateStatement.setDate(i + 1, (java.sql.Date) parameter);
+                        }
+                    }
+
+                    updateStatement.executeUpdate();
+
+                    System.out.println("Modification effectuée avec succès !");
+                } catch (SQLException e) {
+                    System.err.println(e.getMessage());
+                    throw e;
+                }
+            } else {
+                System.out.println("Aucun athlète trouvé avec le nom '" + originalNom + "' et le prénom '" + originalPrenom + "'.");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw e;
+        }
+
+         */
     }
+
 
 
 

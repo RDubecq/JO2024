@@ -12,16 +12,19 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1300.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AthleteController">
    <children>
+
       <ImageView fitHeight="138.0" fitWidth="113.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Image/logoJO2024.png" />
          </image>
       </ImageView>
+
       <Text fill="#8f8451" layoutX="510.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Les athlètes" textAlignment="CENTER" wrappingWidth="278.93670654296875">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </Text>
+
       <HBox alignment="CENTER" layoutX="355.0" layoutY="125.0" prefHeight="36.0" prefWidth="590.0" spacing="50.0">
          <children>
             <Button mnemonicParsing="false" onAction="#AddAthleteWindow" prefHeight="35.0" prefWidth="160.0" styleClass="Button" text="Ajouter un athlète">
@@ -41,7 +44,8 @@
             </Button>
          </children>
       </HBox>
-      <TableView id="AthletesTable" fx:id="AthletesTable" layoutX="50.0" layoutY="200.0" prefHeight="550.0" prefWidth="1200.0">
+
+      <TableView id="Table" fx:id="AthletesTable" layoutX="50.0" layoutY="200.0" prefHeight="550.0" prefWidth="1200.0">
         <columns>
           <TableColumn fx:id="NomColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Nom" />
             <TableColumn fx:id="PrenomColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Prénom" />
@@ -51,5 +55,6 @@
             <TableColumn fx:id="SportColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Sport" />
         </columns>
       </TableView>
+
    </children>
 </AnchorPane>
