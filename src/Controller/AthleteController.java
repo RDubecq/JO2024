@@ -120,8 +120,6 @@ public class AthleteController {
             ObservableList<Athlete> observableList = FXCollections.observableArrayList();
             observableList.addAll(athletes);
             AthletesTable.setItems(observableList);
-        } else {
-            System.out.println("BUG");
         }
     }
 

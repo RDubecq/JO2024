@@ -54,7 +54,7 @@ public class DAO {
         System.out.println("");
         System.out.println("Evenements");
         for (Evenement evenement : evenements) {
-            System.out.println(evenement.getIdEvenement() + "  " + evenement.getNom() + "  " + evenement.getType() + "  " + evenement.getLieu() + "  " + evenement.getDate_Heure());
+            System.out.println(evenement.getIdEvenement() + "  " + evenement.getTitre() + "  " + evenement.getType() + "  " + evenement.getLieu() + "  " + evenement.getDate_Heure());
         }
         System.out.println("");
         System.out.println("Athletes");

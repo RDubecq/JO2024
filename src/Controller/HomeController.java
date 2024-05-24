@@ -57,12 +57,14 @@ public class HomeController {
         SportWindow.show();
     }
 
-    public void GoToEvenement() throws IOException {
+    public void GoToEvenement() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/Evenement.fxml"));
         Parent root = loader.load();
 
+        dao.refreshDatabase();
         EvenementController evenementController = loader.getController();
         evenementController.initData(dao);
+        evenementController.DisplayData();
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());

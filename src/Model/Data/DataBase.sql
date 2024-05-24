@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Sport (
 
 CREATE TABLE IF NOT EXISTS Evenement (
     IdEvenement INTEGER PRIMARY KEY AUTO_INCREMENT,
-    Nom VARCHAR(100),
+    Titre VARCHAR(100),
     Type VARCHAR(100),
     Lieu VARCHAR(100),
     Date_Heure DATETIME
@@ -37,6 +37,15 @@ CREATE TABLE IF NOT EXISTS Resultat (
     CONSTRAINT fk_Resultat_Evenement FOREIGN KEY (Evenement_IdEvenement) REFERENCES Evenement (IdEvenement) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS Utilisateur (
+    IdUtilisateur INTEGER PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(100),
+    Prenom VARCHAR(100),
+    Naissance DATE,
+    NomUtilisateur VARCHAR(100),
+    MDP VARCHAR(100),
+    Role INTEGER
+);
 
 INSERT INTO Sport(Sport) VALUES
 ("Athlétisme"), -- ID 1
@@ -73,12 +82,15 @@ INSERT INTO Sport(Sport) VALUES
 ("Water-polo"); -- ID 32
 
 
-INSERT INTO Evenement(Nom, Type, Lieu, Date_Heure) VALUES ("Cérémonie d'ouverture", "Cérémonie", "Paris", "2024-07-26 19:30:00");
-INSERT INTO Evenement(Nom, Type, Lieu, Date_Heure) VALUES ("Cérémonie de fermeture", "Cérémonie", "Stade de France", '2024-08-11 21:00:00');
-INSERT INTO Evenement(Nom, Type, Lieu, Date_Heure) VALUES ("France-Allemagne", "Football", "Stade de France", '2024-08-13 21:00:00');
+INSERT INTO Evenement(Titre, Type, Lieu, Date_Heure) VALUES ("Cérémonie d'ouverture", "Cérémonie", "Paris", "2024-07-26 19:30:00");
+INSERT INTO Evenement(Titre, Type, Lieu, Date_Heure) VALUES ("Cérémonie de fermeture", "Cérémonie", "Stade de France", '2024-08-11 21:00:00');
+INSERT INTO Evenement(Titre, Type, Lieu, Date_Heure) VALUES ("France-Allemagne", "Football", "Stade de France", '2024-08-13 21:00:00');
 
 INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 ("Lionel", "Messi", "1987-06-24", "Argentine", "Homme", 11),
 ("Rafael", "Dubecq", "2003-07-02", "France", "Homme", 23),
 ("Monstre", "Coucou", "2000-01-01", "France", "Homme", 17);
 
+INSERT INTO Utilisateur(Nom, Prenom, Naissance, NomUtilisateur, MDP, Role) VALUES
+("Admin", "Admin", "2000-01-01", "Admin", "Admin", 1),
+("Dubecq", "Rafael", "2003-07-02", "RDubecq", "Rafael", 2);

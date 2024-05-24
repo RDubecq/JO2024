@@ -17,11 +17,11 @@ public class EvenementDAO {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("idEvenement");
-                String nom = resultSet.getString("Nom");
+                String titre = resultSet.getString("Titre");
                 String type = resultSet.getString("Type");
                 String lieu = resultSet.getString("Lieu");
-                Date date_heure = resultSet.getDate("Date_Heure");
-                Evenement evenement = new Evenement(id, nom, type, lieu, date_heure);
+                String date_heure = resultSet.getString("Date_Heure");
+                Evenement evenement = new Evenement(id, titre, type, lieu, date_heure);
                 evenements.add(evenement);
             }
         } catch (SQLException e) {
