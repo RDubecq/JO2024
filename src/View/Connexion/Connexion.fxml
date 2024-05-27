@@ -27,7 +27,7 @@
         </VBox>
         <HBox alignment="CENTER" layoutX="40.0" layoutY="374.0" prefHeight="42.0" prefWidth="323.0" spacing="30.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#ConnectionGetData" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Connection">
+                <Button mnemonicParsing="false" onAction="#ConnectionGetData" prefHeight="30.0" prefWidth="150.0" styleClass="Button" text="Connexion">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font></Button>

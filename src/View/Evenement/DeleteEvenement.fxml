@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="DeleteEvenement" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EvenementController">
+    <children>
+
+        <VBox layoutX="83.0" layoutY="58.0" prefHeight="253.0" prefWidth="234.0" spacing="15.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Titre">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Text>
+                <TextField fx:id="DeleteEvenement_Titre" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sport">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Text>
+                <ComboBox fx:id="DeleteEvenement_Sport" prefHeight="26.0" prefWidth="234.0" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Text>
+                <ComboBox fx:id="DeleteEvenement_Type" prefHeight="26.0" prefWidth="234.0" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lieu">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Text>
+                <ComboBox fx:id="DeleteEvenement_Lieu" prefHeight="26.0" prefWidth="234.0" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Text>
+                <DatePicker fx:id="DeleteEvenement_Date" prefHeight="26.0" prefWidth="234.0" />
+            </children>
+        </VBox>
+
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="456.0" prefHeight="42.0" prefWidth="380.0" spacing="30.0">
+            <children>
+                <Button fx:id="DeleteEvenementButton" mnemonicParsing="false" onAction="#DeleteEvenementGetData" prefHeight="30.0" prefWidth="190.0" styleClass="Button" text="Supprimer un évènement">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Button>
+                <Button mnemonicParsing="false" onAction="#DeleteEvenementClear" prefHeight="30.0" prefWidth="190.0" styleClass="Button" text="Supprimer">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Button>
+            </children>
+        </HBox>
+
+    </children>
+</AnchorPane>

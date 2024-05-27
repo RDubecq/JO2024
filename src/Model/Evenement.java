@@ -6,16 +6,18 @@ import java.time.LocalDateTime;
 public class Evenement {
     private int IdEvenement;
     private String Titre;
+    private String Sport;
     private String Type;
     private String Lieu;
-    private String Date_Heure;
+    private String Date;
 
-    public Evenement(int idEvenement, String titre, String type, String lieu, String date_Heure) {
+    public Evenement(int idEvenement, String titre, String sport, String type, String lieu, String date) {
         IdEvenement = idEvenement;
         Titre = titre;
+        Sport = sport;
         Type = type;
         Lieu = lieu;
-        Date_Heure = date_Heure;
+        Date = date;
     }
 
     public int getIdEvenement() {
@@ -32,6 +34,13 @@ public class Evenement {
         Titre = titre;
     }
 
+    public String getSport() {
+        return Sport;
+    }
+    public void setSport(String sport) {
+        Sport = sport;
+    }
+
     public String getType() {
         return Type;
     }
@@ -46,10 +55,10 @@ public class Evenement {
         Lieu = lieu;
     }
 
-    public String getDate_Heure() {
-        return Date_Heure;
+    public String getDate() {
+        return Date;
     }
-    public void setDate_Heure(String date_Heure) {
-        Date_Heure = date_Heure;
+    public void setDate(String date) {
+        Date = date;
     }
 }

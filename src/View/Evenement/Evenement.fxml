@@ -22,7 +22,7 @@
 
         <HBox alignment="CENTER" layoutX="299.0" layoutY="125.0" prefHeight="36.0" prefWidth="700.0" spacing="50.0">
             <children>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="230.0" styleClass="Button" text="Ajouter un évènement">
+                <Button mnemonicParsing="false" onAction="#AddEvenementWindow" prefHeight="35.0" prefWidth="230.0" styleClass="Button" text="Ajouter un évènement">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -32,7 +32,7 @@
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="230.0" styleClass="Button" text="Supprimer un évènement">
+                <Button mnemonicParsing="false" onAction="#DeleteEvenementWindow" prefHeight="35.0" prefWidth="230.0" styleClass="Button" text="Supprimer un évènement">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -42,10 +42,11 @@
 
         <TableView id="Table" fx:id="EvenementsTable" layoutX="50.0" layoutY="200.0" prefHeight="550.0" prefWidth="1200.0">
             <columns>
-                <TableColumn fx:id="TitreColumn" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Titre" />
-                <TableColumn fx:id="TypeColumn" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Type" />
-                <TableColumn fx:id="LieuColumn" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Lieu" />
-                <TableColumn fx:id="DateHeureColumn" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Date et Heure" />
+                <TableColumn fx:id="TitreColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Titre" />
+                <TableColumn fx:id="SportColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Sport" />
+                <TableColumn fx:id="TypeColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Type" />
+                <TableColumn fx:id="LieuColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Lieu" />
+                <TableColumn fx:id="DateHeureColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Date" />
             </columns>
         </TableView>
 

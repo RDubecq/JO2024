@@ -52,7 +52,7 @@ public class AthleteController {
     @FXML
     private TextField AddAthlete_Naissance;
     @FXML
-    private TextField AddAthlete_Sport;
+    private ComboBox AddAthlete_Sport;
 
     @FXML
     private TextField DeleteAthlete_Nom;
@@ -214,6 +214,7 @@ public class AthleteController {
     public void AddAthleteWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete/AddAthlete.fxml"));
         Parent root = loader.load();
+        AthleteController controller = loader.getController();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
         Stage AddAthleteWindow = new Stage();
@@ -221,6 +222,14 @@ public class AthleteController {
         AddAthleteWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
         AddAthleteWindow.setTitle("Ajouter un athlète");
         AddAthleteWindow.show();
+
+        controller.AddAthlete_Sport.getItems().addAll(
+                "Athlétisme", "Aviron", "Badminton", "Basketball", "Boxe", "Canoë-Kayak",
+                "Cyclisme", "Équitation", "Escalade", "Escrime", "Football", "Golf",
+                "Gymnastique", "Haltérophilie", "Handball", "Hockey sur gazon", "Judo",
+                "Lutte", "Natation", "Pentathlon moderne", "Rugby à sept", "Skateboard",
+                "Surf", "Taekwondo", "Tennis", "Tennis de table", "Tir sportif",
+                "Tir à l'arc", "Triathlon", "Voile", "Volleyball", "Water-polo");
     }
 
     public void AddAthleteClear() {
@@ -229,7 +238,8 @@ public class AthleteController {
         AddAthlete_Pays.clear();
         AddAthlete_Sexe.clear();
         AddAthlete_Naissance.clear();
-        AddAthlete_Sport.clear();
+        AddAthlete_Sport.setValue(null);
+        AddAthlete_Sport.cancelEdit();
     }
 
     public void AddAthleteGetData() throws SQLException {
@@ -241,7 +251,7 @@ public class AthleteController {
             String pays = AddAthlete_Pays.getText();
             String sexe = AddAthlete_Sexe.getText();
             String naissance = AddAthlete_Naissance.getText();
-            String sport = AddAthlete_Sport.getText();
+            String sport = (String) AddAthlete_Sport.getValue();
 
             if (!nom.isEmpty() && !prenom.isEmpty() && !pays.isEmpty() && !sexe.isEmpty() && !sport.isEmpty()) {
                 if (ValidSport(connection, sport)) {
@@ -564,5 +574,4 @@ public class AthleteController {
             throw e;
         }
     }
-
 }

@@ -134,7 +134,6 @@ public class ConnectionController {
                     AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données inexistantes", "Merci de remplir avec des données existantes.");
                 }
             }
-
         }
     }
 
@@ -221,7 +220,7 @@ public class ConnectionController {
     }
 
     public void GoToCreateAccount() throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Connection/CreateAccount.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Connexion/CreateAccount.fxml"));
         Parent root = loader.load();
 
         dao.refreshDatabase();
