@@ -12,7 +12,6 @@
         <menus>
           <Menu mnemonicParsing="false" style="-fx-font-weight: bold;" text="Compte">
             <items>
-              <MenuItem mnemonicParsing="false" text="Voir le compte" />
                <MenuItem mnemonicParsing="false" onAction="#Deconnexion" text="Déconnexion" />
             </items>
           </Menu>

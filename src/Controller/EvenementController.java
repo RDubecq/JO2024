@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -67,7 +68,7 @@ public class EvenementController {
     private Label dateLabel;
 
     @FXML
-    private ComboBox athleteCombobox;
+    private ComboBox AthletesCombobox;
 
     private ArrayList<Evenement> evenements = new ArrayList<>();
     private ArrayList<Athlete> athletes = new ArrayList<>();
@@ -82,7 +83,6 @@ public class EvenementController {
         evenements.addAll(dao.getEvenements());
         athletes.clear();
         athletes.addAll(dao.getAthletes());
-        System.out.println(athletes.size());
     }
 
     public void DisplayData() {
@@ -220,10 +220,8 @@ public class EvenementController {
     }
 
     public void AddParticipantWindow() throws IOException {
-        System.out.println(athletes.size());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/AddParticipant.fxml"));
         Parent root = loader.load();
-        EvenementController controller = loader.getController();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
         Stage AddParticipantWindow = new Stage();
@@ -232,7 +230,9 @@ public class EvenementController {
         AddParticipantWindow.setTitle("Ajouter un participant");
         AddParticipantWindow.show();
 
-        controller.athleteCombobox.getItems().addAll(athletes);
+        if (AthletesCombobox != null) {
+            AthletesCombobox.getItems().addAll(athletes); // JE N'ARRIVE PAS A METTRE DES DONNEES DEDANS, L'ATTRIBUTION DES ATHLETES A UN EVENEMENT EST DONC COMPLIQUEE
+        }
     }
 
 

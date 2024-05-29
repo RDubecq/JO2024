@@ -42,11 +42,11 @@
 
         <TableView id="Table" fx:id="EvenementsTable" layoutX="50.0" layoutY="200.0" prefHeight="550.0" prefWidth="1200.0">
             <columns>
-                <TableColumn fx:id="TitreColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Titre" />
-                <TableColumn fx:id="SportColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Sport" />
-                <TableColumn fx:id="TypeColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Type" />
-                <TableColumn fx:id="LieuColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Lieu" />
-                <TableColumn fx:id="DateHeureColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Date" />
+                <TableColumn fx:id="TitreColumn" prefWidth="350.0" text="Titre" />
+                <TableColumn fx:id="SportColumn" prefWidth="212.5" text="Sport" />
+                <TableColumn fx:id="TypeColumn" prefWidth="212.5" text="Type" />
+                <TableColumn fx:id="LieuColumn" prefWidth="212.5" text="Lieu" />
+                <TableColumn fx:id="DateHeureColumn" prefWidth="212.5" text="Date" />
             </columns>
         </TableView>
 

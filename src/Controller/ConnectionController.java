@@ -199,7 +199,6 @@ public class ConnectionController {
 
 
 
-
     // REDIRECTION
     public void GoToHome() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Home.fxml"));

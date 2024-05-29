@@ -6,11 +6,14 @@
 
 <AnchorPane prefHeight="201.0" prefWidth="395.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EvenementController">
     <children>
+
         <Label layoutX="94.0" layoutY="35.0" text="Sélectionner un athlète :" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-        <ComboBox fx:id="athleteCombobox" layoutX="66.0" layoutY="79.0" prefHeight="26.0" prefWidth="264.0" />
+
+        <ComboBox fx:id="AthletesCombobox" layoutX="66.0" layoutY="79.0" prefHeight="26.0" prefWidth="264.0" />
+
         <Button layoutX="118.0" layoutY="140.0" mnemonicParsing="false" styleClass="Button" text="Ajouter le participant">
          <font>
             <Font name="System Bold" size="14.0" />
