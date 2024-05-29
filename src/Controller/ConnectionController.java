@@ -107,6 +107,7 @@ public class ConnectionController {
 
 
 
+    // CONNEXION
     @FXML
     private void ConnectionGetData() throws SQLException, IOException {
         String Utilisateur = Connection_Utilisateur.getText();
@@ -141,6 +142,7 @@ public class ConnectionController {
 
 
 
+    // CREATION COMPTE
     @FXML
     private void CreateAccountGetData() throws SQLException {
         if (ValidDate(CreateAccount_Naissance.getText())) {
@@ -198,6 +200,7 @@ public class ConnectionController {
 
 
 
+    // REDIRECTION
     public void GoToHome() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Home.fxml"));
         Parent root = loader.load();
@@ -234,5 +237,4 @@ public class ConnectionController {
         CreateAccountWindow.setTitle("Création de compte");
         CreateAccountWindow.show();
     }
-
 }

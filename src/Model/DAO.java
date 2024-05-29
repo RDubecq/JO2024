@@ -10,6 +10,8 @@ public class DAO {
     private ArrayList<Evenement> evenements = new ArrayList<>();
     private ArrayList<Athlete> athletes = new ArrayList<>();
     private ArrayList<Resultat> resultats = new ArrayList<>();
+    private ArrayList<Medailles> medailles = new ArrayList<>();
+
 
     public static Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/jo2024";
@@ -42,6 +44,9 @@ public class DAO {
             ResultatDAO resultatDAO = new ResultatDAO();
             resultats.addAll(resultatDAO.getAllResultats(connection));
 
+            MedaillesDAO medaillesDAO = new MedaillesDAO();
+            medailles.addAll(medaillesDAO.getAllMedailles(connection));
+
             //printDB();
         }
     }
@@ -64,9 +69,13 @@ public class DAO {
         System.out.println("");
         System.out.println("Resultats");
         for (Resultat resultat : resultats) {
-            System.out.println(resultat.getIdResultat() + " " + resultat.getTemps() + " " + resultat.getScore() + " " + resultat.getGagnant() + " " + resultat.getMedailles() + " " + resultat.getIdSport() + " " + resultat.getIdEvenement());
+            System.out.println(resultat.getIdResultat() + " " + resultat.getGagnant() + " " + resultat.getIdSport() + " " + resultat.getIdEvenement());
         }
         System.out.println("");
+        System.out.println("Médailles");
+        for (Medailles medailles : medailles) {
+            System.out.println(medailles.getIdMedailles() + " " + medailles.getType() + " " + medailles.getPays());
+        }
     }
 
     public void refreshDatabase() throws SQLException {
@@ -78,6 +87,7 @@ public class DAO {
         evenements.clear();
         athletes.clear();
         resultats.clear();
+        medailles.clear();
     }
 
     public ArrayList<Sport> getSports() {
@@ -91,5 +101,8 @@ public class DAO {
     }
     public ArrayList<Resultat> getResultats() {
         return resultats;
+    }
+    public ArrayList<Medailles> getMedailles() {
+        return medailles;
     }
 }

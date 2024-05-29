@@ -50,5 +50,11 @@
             </columns>
         </TableView>
 
+        <Button layoutX="50.0" layoutY="760.0" mnemonicParsing="false" onAction="#ExportToCSV"  prefHeight="10.0" prefWidth="113.0" styleClass="Button" text="Exporter en CSV">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Button>
+
     </children>
 </AnchorPane>

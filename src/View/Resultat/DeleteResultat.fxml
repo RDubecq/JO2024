@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="DeleteResultat" prefHeight="550.0" prefWidth="400.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ResultatController">
+
+    <VBox layoutX="84.0" layoutY="119.0" prefHeight="253.0" prefWidth="234.0" spacing="15.0">
+        <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sport">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font></Text>
+            <TextField fx:id="DeleteResultat_Sport" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Évènement">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font></Text>
+            <TextField fx:id="DeleteResultat_Evenement" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gagnant">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font></Text>
+            <TextField fx:id="DeleteResultat_Gagnant" />
+        </children>
+    </VBox>
+
+    <HBox alignment="CENTER" layoutX="11.0" layoutY="390.0" prefHeight="42.0" prefWidth="380.0" spacing="30.0">
+        <children>
+            <Button fx:id="DeleteResultatButton" mnemonicParsing="false" onAction="#DeleteResultatGetData" prefHeight="30.0" prefWidth="190.0" styleClass="Button" text="Supprimer un résultat">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font></Button>
+            <Button mnemonicParsing="false" onAction="#DeleteResultatClear" prefHeight="30.0" prefWidth="190.0" styleClass="Button" text="Supprimer">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font></Button>
+        </children>
+    </HBox>
+
+</AnchorPane>

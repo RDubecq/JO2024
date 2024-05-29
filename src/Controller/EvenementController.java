@@ -13,19 +13,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class EvenementController {
     @FXML
     private TableView EvenementsTable;
+    @FXML
+    private TableView ParticipantsTable;
 
     @FXML
     private AnchorPane AddEvenement;
@@ -65,7 +66,11 @@ public class EvenementController {
     @FXML
     private Label dateLabel;
 
+    @FXML
+    private ComboBox athleteCombobox;
+
     private ArrayList<Evenement> evenements = new ArrayList<>();
+    private ArrayList<Athlete> athletes = new ArrayList<>();
     private DAO dao = new DAO();
 
 
@@ -75,6 +80,9 @@ public class EvenementController {
     public void initData(DAO dao) {
         evenements.clear();
         evenements.addAll(dao.getEvenements());
+        athletes.clear();
+        athletes.addAll(dao.getAthletes());
+        System.out.println(athletes.size());
     }
 
     public void DisplayData() {
@@ -111,32 +119,6 @@ public class EvenementController {
         }
     }
 
-    public void setDetails(Evenement evenement) {
-        titreLabel.setText(evenement.getTitre());
-        sportLabel.setText(evenement.getSport());
-        typeLabel.setText(evenement.getType());
-        lieuLabel.setText(evenement.getLieu());
-        dateLabel.setText(evenement.getDate());
-    }
-
-    private void showDetailsWindow(Evenement evenement) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/EvenementDetails.fxml"));
-            Parent root = loader.load();
-            EvenementController controller = loader.getController();
-            controller.setDetails(evenement);
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
-            Stage EvenementDetailsWindow = new Stage();
-            EvenementDetailsWindow.setScene(scene);
-            EvenementDetailsWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
-            EvenementDetailsWindow.setTitle("Détails de l'évènement");
-            EvenementDetailsWindow.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void RefreshTable() throws SQLException {
         dao.refreshDatabase();
         initData(dao);
@@ -165,6 +147,99 @@ public class EvenementController {
 
 
 
+    // DETAILS EVENEMENTS
+    private void setDetails(Evenement evenement) {
+        titreLabel.setText(evenement.getTitre());
+        sportLabel.setText(evenement.getSport());
+        typeLabel.setText(evenement.getType());
+        lieuLabel.setText(evenement.getLieu());
+        dateLabel.setText(evenement.getDate());
+    }
+
+    private void showDetailsWindow(Evenement evenement) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/EvenementDetails.fxml"));
+            Parent root = loader.load();
+            EvenementController controller = loader.getController();
+            controller.setDetails(evenement);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
+            Stage EvenementDetailsWindow = new Stage();
+            EvenementDetailsWindow.setScene(scene);
+            EvenementDetailsWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
+            EvenementDetailsWindow.setTitle("Détails de l'évènement");
+
+            ObservableList<Athlete> participants = loadParticipants(evenement.getIdEvenement());
+            controller.ParticipantsTable.setItems(participants);
+
+            TableColumn<Athlete, String> prenomColumn = new TableColumn<>("Prenom");
+            prenomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrenom()));
+            prenomColumn.setPrefWidth(155);
+
+            TableColumn<Athlete, String> nomColumn = new TableColumn<>("Nom");
+            nomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNom()));
+            nomColumn.setPrefWidth(155);
+
+            controller.ParticipantsTable.getColumns().setAll(prenomColumn, nomColumn);
+
+            EvenementDetailsWindow.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ObservableList<Athlete> loadParticipants(int eventId) {
+        ObservableList<Athlete> participants = FXCollections.observableArrayList();
+        String query = "SELECT a.IdAthlete, a.Prenom, a.Nom, a.Naissance, a.Pays, a.Sexe, s.Sport " +
+                "FROM Athlete a " +
+                "JOIN Evenement_Athlete ea ON a.IdAthlete = ea.Athlete_Id " +
+                "JOIN Sport s ON a.Sport_IdSport = s.IdSport " +
+                "WHERE ea.Evenement_Id = ?";
+
+        try (Connection connection = dao.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, eventId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int idAthlete = resultSet.getInt("IdAthlete");
+                String prenom = resultSet.getString("Prenom");
+                String nom = resultSet.getString("Nom");
+                Date naissance = resultSet.getDate("Naissance");
+                String pays = resultSet.getString("Pays");
+                String sexe = resultSet.getString("Sexe");
+                String nomSport = resultSet.getString("Sport");
+
+                Athlete athlete = new Athlete(idAthlete, prenom, nom, naissance, pays, sexe, nomSport);
+                participants.add(athlete);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return participants;
+    }
+
+    public void AddParticipantWindow() throws IOException {
+        System.out.println(athletes.size());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/AddParticipant.fxml"));
+        Parent root = loader.load();
+        EvenementController controller = loader.getController();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
+        Stage AddParticipantWindow = new Stage();
+        AddParticipantWindow.setScene(scene);
+        AddParticipantWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
+        AddParticipantWindow.setTitle("Ajouter un participant");
+        AddParticipantWindow.show();
+
+        controller.athleteCombobox.getItems().addAll(athletes);
+    }
+
+
+
+
+
+    // ADD EVENEMENTS
     public void AddEvenementWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/AddEvenement.fxml"));
         Parent root = loader.load();
@@ -244,6 +319,7 @@ public class EvenementController {
 
 
 
+    // DELETE EVENEMENTS
     public void DeleteEvenementWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/DeleteEvenement.fxml"));
         Parent root = loader.load();
@@ -320,4 +396,34 @@ public class EvenementController {
         }
     }
 
+
+
+
+
+    // EXPORT
+    public void ExportToCSV() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.append("Titre;Sport;Type;Lieu;Date\n");
+
+                for (Evenement evenement : evenements) {
+                    writer.append(evenement.getTitre()).append(";");
+                    writer.append(evenement.getSport()).append(";");
+                    writer.append(evenement.getType()).append(";");
+                    writer.append(evenement.getLieu()).append(";");
+                    writer.append(evenement.getDate()).append("\n");
+                }
+
+                writer.flush();
+                AlertMessage(Alert.AlertType.INFORMATION, "Export terminé", "Export au format CSV terminé.", "");
+            } catch (IOException e) {
+                System.err.println("An error occurred while writing the CSV file: " + e.getMessage());
+            }
+        }
+    }
 }

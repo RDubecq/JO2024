@@ -1,27 +1,29 @@
 package Model;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.sql.*;
 
-public class ResultatDAO {
-    public ArrayList<Resultat> getAllResultats(Connection connection) {
-        ArrayList<Resultat> resultats = new ArrayList<>();
+public class MedaillesDAO {
+    public ArrayList<Medailles> getAllMedailles(Connection connection) {
+        ArrayList<Medailles> medailles = new ArrayList<>();
 
         Statement statement = null;
         ResultSet resultSet = null;
 
         try {
-            String query = "SELECT * FROM resultat";
+            String query = "SELECT * FROM medailles";
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("IdResultat");
-                String gagnant = resultSet.getString("Gagnant");
-                int idsport = resultSet.getInt("Sport_IdSport");
-                int idevenement = resultSet.getInt("Evenement_IdEvenement");
-                Resultat resultat = new Resultat(id, gagnant, idsport, idevenement);
-                resultats.add(resultat);
+                int id = resultSet.getInt("IdMedailles");
+                String type = resultSet.getString("Type");
+                String pays = resultSet.getString("Pays");
+                Medailles medaille = new Medailles(id, type, pays);
+                medailles.add(medaille);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,6 +40,6 @@ public class ResultatDAO {
             }
         }
 
-        return resultats;
+        return medailles;
     }
 }

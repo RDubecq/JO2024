@@ -29,16 +29,20 @@ CREATE TABLE IF NOT EXISTS Athlete (
 
 CREATE TABLE IF NOT EXISTS Resultat (
     IdResultat INTEGER PRIMARY KEY AUTO_INCREMENT,
-    Temps VARCHAR(100),
-    Score VARCHAR(100),
     Gagnant VARCHAR(100),
-    Medailles VARCHAR(100),
     Sport_IdSport INT NOT NULL,
     Evenement_IdEvenement INT NOT NULL,
     INDEX fk_Resultat_Sport_idx (Sport_IdSport ASC),
     CONSTRAINT fk_Resultat_Sport FOREIGN KEY (Sport_IdSport) REFERENCES Sport (IdSport) ON DELETE CASCADE ON UPDATE CASCADE,
     INDEX fk_Resultat_Evenement_idx (Evenement_IdEvenement ASC),
     CONSTRAINT fk_Resultat_Evenement FOREIGN KEY (Evenement_IdEvenement) REFERENCES Evenement (IdEvenement) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS Medailles (
+    IdMedailles INTEGER PRIMARY KEY AUTO_INCREMENT,
+    Type VARCHAR(100),
+    Pays VARCHAR(100)
 );
 
 
@@ -111,7 +115,7 @@ INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 -- Basketball (ID 4)
 ("Kevin", "Durant", "1988-09-29", "États-Unis", "Homme", 4),
 ("LeBron", "James", "1984-12-30", "États-Unis", "Homme", 4),
-("Sue", "Bird", "1980-10-16", "États-Unis", "Femme", 4), -- ID 10
+("Sue", "Bird", "1980-10-16", "États-Unis", "Femme", 4),
 -- Boxe (ID 5)
 ("Katie", "Taylor", "1986-07-02", "Irlande", "Femme", 5),
 ("Anthony", "Joshua", "1989-10-15", "Royaume-Uni", "Homme", 5),
@@ -126,7 +130,7 @@ INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 ("Charlotte", "Dujardin", "1985-07-13", "Royaume-Uni", "Femme", 8),
 ("Michael", "Jung", "1982-07-31", "Allemagne", "Homme", 8),
 -- Escalade (ID 9)
-("Janja", "Garnbret", "1999-03-12", "Slovénie", "Femme", 9), -- ID 20
+("Janja", "Garnbret", "1999-03-12", "Slovénie", "Femme", 9),
 ("Adam", "Ondra", "1993-02-05", "République tchèque", "Homme", 9),
 -- Escrime (ID 10)
 ("Ruben", "Limardo", "1985-08-03", "Venezuela", "Homme", 10),
@@ -140,7 +144,7 @@ INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 ("Nelly", "Korda", "1998-07-28", "États-Unis", "Femme", 12),
 -- Gymnastique (ID 13)
 ("Simone", "Biles", "1997-03-14", "États-Unis", "Femme", 13),
-("Kohei", "Uchimura", "1989-01-03", "Japon", "Homme", 13), -- ID 30
+("Kohei", "Uchimura", "1989-01-03", "Japon", "Homme", 13),
 ("Nadia", "Comăneci", "1961-11-12", "Roumanie", "Femme", 13),
 -- Haltérophilie (ID 14)
 ("Lasha", "Talakhadze", "1993-10-02", "Géorgie", "Homme", 14),
@@ -155,7 +159,7 @@ INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 ("Teddy", "Riner", "1989-04-07", "France", "Homme", 17),
 ("Ryoko", "Tani", "1975-09-06", "Japon", "Femme", 17),
 -- Lutte (ID 18)
-("Aleksandr", "Karelin", "1967-09-19", "Russie", "Homme", 18), -- ID 40
+("Aleksandr", "Karelin", "1967-09-19", "Russie", "Homme", 18),
 ("Kaori", "Icho", "1984-06-13", "Japon", "Femme", 18),
 -- Natation (ID 19)
 ("Michael", "Phelps", "1985-06-30", "États-Unis", "Homme", 19),
@@ -171,21 +175,23 @@ INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 ("Nyjah", "Huston", "1994-11-30", "États-Unis", "Homme", 22),
 ("Sky", "Brown", "2008-07-12", "Royaume-Uni", "Femme", 22),
 -- Surf (ID 23)
-("Carissa", "Moore", "1992-08-27", "États-Unis", "Femme", 23), -- ID 50
-("Gabriel", "Medina", "1993-12-22", "Brésil", "Homme", 23), -- ID 51
-("John John", "Florence", "1992-10-18", "États-Unis", "Homme", 23), -- ID 52
+("Carissa", "Moore", "1992-08-27", "États-Unis", "Femme", 23),
+("Gabriel", "Medina", "1993-12-22", "Brésil", "Homme", 23), -- ID 52
+("John John", "Florence", "1992-10-18", "États-Unis", "Homme", 23), -- ID 53
 -- Taekwondo (ID 24)
 ("Hadi", "Saei", "1976-06-10", "Iran", "Homme", 24),
 ("Jade", "Jones", "1993-03-21", "Royaume-Uni", "Femme", 24),
 -- Tennis (ID 25)
-("Rafael", "Nadal", "1986-06-03", "Espagne", "Homme", 25), -- ID 55
+("Rafael", "Nadal", "1986-06-03", "Espagne", "Homme", 25), -- ID 56
 ("Serena", "Williams", "1981-09-26", "États-Unis", "Femme", 25),
-("Novak", "Djokovic", "1987-05-22", "Serbie", "Homme", 25), -- ID 57
+("Novak", "Djokovic", "1987-05-22", "Serbie", "Homme", 25), -- ID 58
+('John', 'Millman', '1989-06-14', 'Australie', 'Homme', 25), --59
+('Laslo', 'Djere', '1995-06-02', 'Serbie', 'Homme', 25), --60
 -- Tennis de table (ID 26)
 ("Ma", "Long", "1988-10-20", "Chine", "Homme", 26),
 ("Ding", "Ning", "1990-06-20", "Chine", "Femme", 26),
 -- Tir sportif (ID 27)
-("Vincent", "Hancock", "1989-03-19", "États-Unis", "Homme", 27), -- ID 60
+("Vincent", "Hancock", "1989-03-19", "États-Unis", "Homme", 27),
 ("Jin", "Jong-oh", "1979-09-24", "Corée du Sud", "Homme", 27),
 -- Tir à l'arc (ID 28)
 ("Kim", "Woojin", "1992-06-20", "Corée du Sud", "Homme", 28),
@@ -198,24 +204,51 @@ INSERT INTO Athlete(Prenom, Nom, Naissance, Pays, Sexe, Sport_IdSport) VALUES
 ("Santiago", "Lange", "1961-09-22", "Argentine", "Homme", 30),
 -- Volleyball (ID 31)
 ("Kerri", "Walsh Jennings", "1978-08-15", "États-Unis", "Femme", 31),
-("Giba", "1976-12-23", "Brésil", "Homme", 31),
+("Gilberto", "Amaury", "1976-12-23", "Brésil", "Homme", 31),
 -- Water-polo (ID 32)
-("Maggie", "Steffens", "1993-06-04", "États-Unis", "Femme", 32), -- ID 70
+("Maggie", "Steffens", "1993-06-04", "États-Unis", "Femme", 32),
 ("Tibor", "Benedek", "1972-07-12", "Hongrie", "Homme", 32);
 
 
 INSERT INTO Evenement(Titre, Sport, Type, Lieu, Date) VALUES
 ("Cérémonie d'ouverture", "Autres", "Cérémonie", "Paris", "2024-07-26"), -- ID 1
 ("Cérémonie de fermeture", "Autres", "Cérémonie", "Stade de France", "2024-08-11"), -- ID 2
-("Tour 1 Match 1", "Tennis", "Évènement sportif", "Paris", "2024-08-03"), -- ID 3
-("Tour 1 Série 1", "Surf", "Évènement sportif", "Tahiti", "2024-07-27"); -- ID 4
+("Homme Tour 1 Match 1", "Tennis", "Évènement sportif", "Paris", "2024-08-03"), -- ID 3
+("Homme Tour 1 Série 1", "Surf", "Évènement sportif", "Tahiti", "2024-07-27"), -- ID 4
+("Homme Groupe A : France vs Etats-Unis", "Football", "Évènement sportif", "Marseille", "2024-07-24"), --5
+("Homme Groupe A : Nouvelle-Zélande vs Etats-Unis", "Football", "Évènement sportif", "Marseille", "2024-07-30"), --6
+("Homme Quart de finale : 1A vs 2B", "Football", "Évènement sportif", "Bordeaux", "2024-08-02"), --7
+("Homme Demi-finale : WQ2 vs WQ4", "Football", "Évènement sportif", "Lyon", "2024-08-05"), --8
+("Homme Finale : WDF1 vs WDF2", "Football", "Évènement sportif", "Paris", "2024-08-09"), --9
+("Homme Finale", "Tennis", "Évènement sportif", "Paris", "2024-08-04"); --10
 
 
 INSERT INTO Evenement_Athlete(Evenement_Id, Athlete_Id) VALUES
-(3, 56),
-(3, 58),
-(4, 52),
-(4,53);
+(3, 59), --1 Tennis (ID25), 1er tour Match 1, John Millman
+(3, 60), --2 Tennis (ID25), 1er tour Match 1, Laslo Djere
+(4, 52), --3 Surf (ID23), 1er tour Série 1, Gabriel Medina
+(4, 53), --4 Surf (ID23), 1er tour Série 1, John John Florence
+(10, 56), --5 Tennis (ID25), Finale, Rafael Nadal
+(10, 58); --6 Tennis (ID25), Finale, Novak Djokovic
+
+
+INSERT INTO Resultat(Gagnant, Sport_IdSport, Evenement_IdEvenement) VALUES
+("John Millman", 25, 3), -- 1er tour tennis
+("Rafael Nadal", 25, 10), -- Finale tennis
+("John John Florence", 23, 4), -- 1er tour surf
+("France", 11, 5), -- 1er match football France
+("France", 11, 9); -- Finale football France
+
+
+INSERT INTO Medailles(Type, Pays) VALUES
+("Or", "Espagne"), -- Finale tennis Nadal
+("Argent", "Serbie"), -- Finale tennis Djokovic
+("Or", "France"), -- Finale football France
+("Bronze", "Australie"), -- 3ème place tennis Millman
+("Or", "France"),
+("", "Allemagne"),
+("Bronze", "France"),
+("Argent", "France");
 
 
 INSERT INTO Utilisateur(Nom, Prenom, Naissance, NomUtilisateur, MDP, Role) VALUES

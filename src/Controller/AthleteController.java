@@ -13,7 +13,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +29,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class AthleteController {
     @FXML
@@ -88,6 +90,7 @@ public class AthleteController {
 
     private ArrayList<Athlete> athletes = new ArrayList<>();
     private DAO dao = new DAO();
+
 
 
 
@@ -210,6 +213,7 @@ public class AthleteController {
 
 
 
+
     // ADD ATHLETE
     public void AddAthleteWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Athlete/AddAthlete.fxml"));
@@ -304,6 +308,7 @@ public class AthleteController {
             throw e;
         }
     }
+
 
 
 
@@ -572,6 +577,39 @@ public class AthleteController {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw e;
+        }
+    }
+
+
+
+
+
+    // EXPORT
+    public void ExportToCSV() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.append("Prenom;Nom;Naissance;Pays;Sexe;NomSport\n");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                for (Athlete athlete : athletes) {
+                    writer.append(athlete.getPrenom()).append(";");
+                    writer.append(athlete.getNom()).append(";");
+                    writer.append(dateFormat.format(athlete.getNaissance())).append(";");
+                    writer.append(athlete.getPays()).append(";");
+                    writer.append(athlete.getSexe()).append(";");
+                    writer.append(athlete.getNomSport()).append("\n");
+                }
+
+                writer.flush();
+                AlertMessage(Alert.AlertType.INFORMATION, "Export terminé", "Export au format CSV terminé.", "");
+            } catch (IOException e) {
+                System.err.println("An error occurred while writing the CSV file: " + e.getMessage());
+            }
         }
     }
 }

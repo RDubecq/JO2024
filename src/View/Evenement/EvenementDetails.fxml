@@ -82,11 +82,10 @@
 
    <TableView id="Table" fx:id="ParticipantsTable" layoutX="59.0" layoutY="197.0" prefHeight="294.0" prefWidth="310.0">
      <columns>
-       <TableColumn prefWidth="309.59998931884763" text="Participants" />
      </columns>
    </TableView>
 
-      <Button fx:id="AddParticipantButton" layoutX="127.0" layoutY="514.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="174.0" styleClass="Button" text="Ajouter un participant">
+    <Button fx:id="AddParticipantButton" layoutX="127.0" layoutY="514.0" mnemonicParsing="false" onAction="#AddParticipantWindow" prefHeight="30.0" prefWidth="174.0" styleClass="Button" text="Ajouter un participant">
           <font>
               <Font name="System Bold" size="14.0" />
           </font>
