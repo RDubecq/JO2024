@@ -27,11 +27,6 @@
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="230.0" styleClass="Button" text="Modifier un évènement">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
                 <Button mnemonicParsing="false" onAction="#DeleteEvenementWindow" prefHeight="35.0" prefWidth="230.0" styleClass="Button" text="Supprimer un évènement">
                     <font>
                         <Font name="System Bold" size="14.0" />

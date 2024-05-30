@@ -14,8 +14,6 @@ import java.sql.SQLException;
 public class HomeController {
     @FXML
     private AnchorPane Home;
-    @FXML
-    private AnchorPane Compte;
 
     private DAO dao = new DAO();
 
@@ -95,10 +93,11 @@ public class HomeController {
         EvenementWindow.show();
     }
 
-    public void GoToResultat() throws IOException {
+    public void GoToResultat() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Resultat/Resultat.fxml"));
         Parent root = loader.load();
 
+        dao.refreshDatabase();
         ResultatController resultatController = loader.getController();
         resultatController.initData(dao);
         resultatController.DisplayData();

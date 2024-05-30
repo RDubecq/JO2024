@@ -13,6 +13,10 @@ public class DAO {
     private ArrayList<Medailles> medailles = new ArrayList<>();
 
 
+
+
+
+
     public static Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/jo2024";
         String user = "root";
@@ -89,6 +93,10 @@ public class DAO {
         resultats.clear();
         medailles.clear();
     }
+
+
+
+
 
     public ArrayList<Sport> getSports() {
         return sports;

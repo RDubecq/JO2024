@@ -46,7 +46,7 @@ public class SportController {
             countColumn.setCellValueFactory(data -> {
                 int athleteCount = 0;
                 try {
-                    athleteCount = getAthleteCountForSport(data.getValue());
+                    athleteCount = CountAthletePerSport(data.getValue());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -56,8 +56,6 @@ public class SportController {
             ObservableList<Sport> observableList = FXCollections.observableArrayList();
             observableList.addAll(sports);
             SportsTable.setItems(observableList);
-        } else {
-            System.out.println("BUG");
         }
     }
 
@@ -74,7 +72,7 @@ public class SportController {
 
 
     // NOMBRE D'ATHLETES PAR SPORT
-    private int getAthleteCountForSport(Sport sport) throws SQLException {
+    private int CountAthletePerSport(Sport sport) throws SQLException {
         int athleteCount = 0;
 
         String query = "SELECT COUNT(*) AS AthleteCount FROM Athlete WHERE Sport_IdSport = ?";
@@ -112,7 +110,7 @@ public class SportController {
                 writer.flush();
                 AlertMessage(Alert.AlertType.INFORMATION, "Export terminé", "Export au format CSV terminé.", "");
             } catch (IOException e) {
-                System.err.println("An error occurred while writing the CSV file: " + e.getMessage());
+                e.getMessage();
             }
         }
     }

@@ -64,7 +64,7 @@ public class CalendrierController {
             LocalDate endDate = LocalDate.of(2024, 8, 11);
 
             if (selectedDate.isBefore(startDate) || selectedDate.isAfter(endDate)) {
-                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Date invalide", "Veuillez choisir une date entre le 26 juillet 2024 et le 11 août 2024 inclus.");
+                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Date invalide", "Veuillez choisir une date entre le 24 juillet 2024 et le 11 août 2024 inclus.");
             } else {
                 String date = String.valueOf(selectedDate);
                 GetEvenementsByDate(date);

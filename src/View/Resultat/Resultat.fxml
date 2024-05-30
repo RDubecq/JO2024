@@ -32,11 +32,6 @@
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="180.0" styleClass="Button" text="Modifier un résultat">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
                 <Button mnemonicParsing="false" onAction="#DeleteResultatWindow" prefHeight="35.0" prefWidth="180.0" styleClass="Button" text="Supprimer un résultat">
                     <font>
                         <Font name="System Bold" size="14.0" />
@@ -80,12 +75,22 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-
-        <Button layoutX="821.0" layoutY="757.0" mnemonicParsing="false" onAction="#DiagrammeWindow" prefHeight="26.0" prefWidth="128.0" styleClass="Button" text="Voir le diagramme" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
+      <HBox layoutX="863.0" layoutY="759.0" prefHeight="26.0" prefWidth="288.0" spacing="30.0">
+         <children>
+      
+              <Button mnemonicParsing="false" onAction="#DiagrammeWindow" prefHeight="26.0" prefWidth="128.0" styleClass="Button" text="Voir le diagramme" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+      
+            <Button mnemonicParsing="false" onAction="#AddMedailleWindow" prefHeight="26.0" prefWidth="128.0" styleClass="Button" text="Ajouter" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
 
     </children>
 </AnchorPane>

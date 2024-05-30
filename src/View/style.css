@@ -22,6 +22,7 @@
 
 
 
+/* TABLE */
 #Table {
     -fx-font-size: 14px;
     -fx-hbar-policy: never;
@@ -50,3 +51,20 @@
 }
 
 
+
+/* DIAGRAMME */
+.default-color0.chart-bar {
+    -fx-bar-fill: gold;
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: silver;
+}
+
+.default-color2.chart-bar {
+    -fx-bar-fill: #cd7f32;
+}
+
+.BarChart {
+    -fx-spacing: 10;
+}

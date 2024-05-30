@@ -8,22 +8,20 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="550.0" prefWidth="750.0" styleClass="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ResultatController">
-   <children>
+    <Text fill="#8f8451" layoutX="196.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="Diagramme des médailles par pays" textAlignment="CENTER" wrappingWidth="358.630859375">
+        <font>
+            <Font name="System Bold" size="20.0"/>
+        </font>
+    </Text>
 
-       <Text fill="#8f8451" layoutX="196.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Diagramme des médailles par pays" textAlignment="CENTER" wrappingWidth="358.630859375">
-           <font>
-               <Font name="System Bold" size="20.0" />
-           </font>
-       </Text>
-
-      <BarChart fx:id="MedaillesBarChart" layoutX="60.0" layoutY="89.0" prefHeight="446.0" prefWidth="630.0">
+    <BarChart fx:id="MedaillesBarChart" styleClass="BarChart" layoutX="60.0" layoutY="89.0" prefHeight="446.0" prefWidth="630.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+            <CategoryAxis prefHeight="27.0" prefWidth="574.0" side="BOTTOM" fx:id="xAxis"/>
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+            <NumberAxis side="LEFT" fx:id="yAxis"/>
         </yAxis>
-      </BarChart>
+    </BarChart>
 
-   </children>
 </AnchorPane>

@@ -10,11 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -37,7 +36,7 @@ public class ResultatController {
     private TableView ClassementTable;
 
     @FXML
-    private BarChart<String, Number> MedaillesBarChart;
+    private BarChart<String, Integer> MedaillesBarChart;
 
     private ObservableList<Map.Entry<String, Map<String, Integer>>> classementList = null;
 
@@ -47,11 +46,26 @@ public class ResultatController {
     private AnchorPane DeleteResultat;
 
     @FXML
+    private AnchorPane AddMedaille;
+
+    @FXML
     private TextField AddResultat_Sport;
     @FXML
     private TextField AddResultat_Evenement;
     @FXML
     private TextField AddResultat_Gagnant;
+
+    @FXML
+    private TextField DeleteResultat_Sport;
+    @FXML
+    private TextField DeleteResultat_Evenement;
+    @FXML
+    private TextField DeleteResultat_Gagnant;
+
+    @FXML
+    private ComboBox AddMedaille_Type;
+    @FXML
+    private TextField AddMedaille_Pays;
 
     private ArrayList<Resultat> resultats = new ArrayList<>();
     private ArrayList<Medailles> medailles = new ArrayList<>();
@@ -125,6 +139,13 @@ public class ResultatController {
 
             ClassementTable.setItems(classementList);
         }
+    }
+
+    private void RefreshTable() throws SQLException {
+        dao.refreshDatabase();
+        initData(dao);
+
+        DisplayData();
     }
 
     private void AlertMessage(Alert.AlertType type, String title, String header, String text) {
@@ -273,7 +294,6 @@ public class ResultatController {
 
 
 
-
     // ADD RESULTAT
     public void AddResultatWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Resultat/AddResultat.fxml"));
@@ -315,7 +335,6 @@ public class ResultatController {
         } else {
             AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
         }
-
     }
 
     public void AddResultat(String gagnant, int sport, int evenement) throws SQLException {
@@ -331,14 +350,13 @@ public class ResultatController {
 
             AddResultatClear();
             AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
+            RefreshTable();
             CloseWindow(AddResultat);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw e;
         }
-    }
-
-    // A REFAIRE, VERIFIER SI ATHLETE EXISTE, SI EVENEMENT EXISTE, SI SPORT EXISTE
+    } // ERREUR SQL
 
 
 
@@ -358,16 +376,57 @@ public class ResultatController {
     }
 
     public void DeleteResultatClear() {
-
+        DeleteResultat_Sport.clear();
+        DeleteResultat_Evenement.clear();
+        DeleteResultat_Gagnant.clear();
     }
 
     public void DeleteResultatGetData() throws SQLException {
+        Connection connection = dao.getConnection();
 
+        String sport = DeleteResultat_Sport.getText();
+        String evenement = DeleteResultat_Evenement.getText();
+        String gagnant = DeleteResultat_Gagnant.getText();
+
+        if (!sport.isEmpty() && !evenement.isEmpty() && !gagnant.isEmpty()) {
+            if (ValidSport(connection, sport)) {
+                if (ValidAthlete(connection, gagnant)) {
+                    int Sport = getSportId(connection, sport);
+                    int Evenement = getEvenementId(connection, evenement);
+                    DeleteResultat(gagnant, Sport, Evenement);
+                } else {
+                    AlertMessage(Alert.AlertType.ERROR, "Erreur", "Athlète invalide", "L'athlète indiqué n'est pas présent dans la base de données.");
+                }
+            } else {
+                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Sport invalide", "Le sport indiqué n'est pas présent dans la base de données.");
+            }
+        } else {
+            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
+        }
     }
 
-    public void DeleteResultat(String gagnant, String sport, String evenement) throws SQLException {
+    public void DeleteResultat(String gagnant, int sport, int evenement) throws SQLException {
+        Connection connection = dao.getConnection();
+        String queryDelete = "DELETE FROM Resultat WHERE Gagnant = ? AND Sport_IdSport = ? AND Evenement = ?";
 
-    }
+        try (PreparedStatement deleteStatement = connection.prepareStatement(queryDelete)) {
+            deleteStatement.setString(1, gagnant);
+            deleteStatement.setInt(2, sport);
+            deleteStatement.setInt(3, evenement);
+
+            int rowsAffected = deleteStatement.executeUpdate();
+
+            DeleteResultatClear();
+            if (rowsAffected > 0) {
+                AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
+            }
+            RefreshTable();
+            CloseWindow(DeleteResultat);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    } // ERREUR SQL
 
 
 
@@ -415,16 +474,21 @@ public class ResultatController {
         DiagrammeWindow.setTitle("Diagramme des médailles");
         DiagrammeWindow.show();
 
-        controller.afficherDonneesDansBarChart(classementList);
+        controller.DisplayBarChart(classementList);
     }
 
-    public void afficherDonneesDansBarChart(ObservableList<Map.Entry<String, Map<String, Integer>>> classementList) {
+    public void DisplayBarChart(ObservableList<Map.Entry<String, Map<String, Integer>>> classementList) {
         if (MedaillesBarChart != null) {
             MedaillesBarChart.getData().clear();
 
-            XYChart.Series<String, Number> orSeries = new XYChart.Series<>();
-            XYChart.Series<String, Number> argentSeries = new XYChart.Series<>();
-            XYChart.Series<String, Number> bronzeSeries = new XYChart.Series<>();
+            XYChart.Series<String, Integer> orSeries = new XYChart.Series<>();
+            XYChart.Series<String, Integer> argentSeries = new XYChart.Series<>();
+            XYChart.Series<String, Integer> bronzeSeries = new XYChart.Series<>();
+
+            orSeries.setName("Or");
+            argentSeries.setName("Argent");
+            bronzeSeries.setName("Bronze");
+
             for (Map.Entry<String, Map<String, Integer>> entry : classementList) {
                 String pays = entry.getKey();
                 Map<String, Integer> medaillesPays = entry.getValue();
@@ -439,7 +503,68 @@ public class ResultatController {
             }
 
             MedaillesBarChart.getData().addAll(orSeries, argentSeries, bronzeSeries);
+
+            CategoryAxis xAxis = (CategoryAxis) MedaillesBarChart.lookup("#xAxis");
+            NumberAxis yAxis = (NumberAxis) MedaillesBarChart.lookup("#yAxis");
+
+            xAxis.setGapStartAndEnd(true); // ERREUR D'AFFICHAGE
+        }
+    }
+
+
+
+
+
+    // ADD MEDAILLE
+    public void AddMedailleWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Resultat/AddMedaille.fxml"));
+        Parent root = loader.load();
+        ResultatController controller = loader.getController();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
+        Stage AddMedailleWindow = new Stage();
+        AddMedailleWindow.setScene(scene);
+        AddMedailleWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
+        AddMedailleWindow.setTitle("Ajouter des médailles");
+        AddMedailleWindow.show();
+
+        controller.AddMedaille_Type.getItems().addAll("Or", "Argent", "Bronze");
+    }
+
+    public void AddMedailleClear() {
+        AddMedaille_Type.getItems().clear();
+        AddMedaille_Type.cancelEdit();
+        AddMedaille_Pays.clear();
+    }
+
+    public void AddMedailleGetData() throws SQLException {
+        String type = (String) AddMedaille_Type.getValue();
+        String pays = AddMedaille_Pays.getText();
+
+        if (!type.isEmpty() && !pays.isEmpty()) {
+            AddMedaille(type, pays);
+        } else {
+            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
+        }
+    }
+
+    public void AddMedaille(String type, String pays) throws SQLException {
+        Connection connection = dao.getConnection();
+        String query = "INSERT INTO Medailles (Type, Pays) VALUES (?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, type);
+            statement.setString(2, pays);
+
+            statement.executeUpdate();
+
+            AddMedailleClear();
+            AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
+            RefreshTable();
+            CloseWindow(AddMedaille);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw e;
         }
     }
 }
-

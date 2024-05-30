@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -33,6 +32,8 @@ public class EvenementController {
     private AnchorPane AddEvenement;
     @FXML
     private AnchorPane DeleteEvenement;
+    @FXML
+    private AnchorPane AddParticipant;
 
     @FXML
     private TextField AddEvenement_Titre;
@@ -68,7 +69,12 @@ public class EvenementController {
     private Label dateLabel;
 
     @FXML
-    private ComboBox AthletesCombobox;
+    private TextField AddParticipant_Athlete;
+
+    private int IdEvenement;
+    public void setIdEvenement(int idEvenement) {
+        this.IdEvenement = idEvenement;
+    }
 
     private ArrayList<Evenement> evenements = new ArrayList<>();
     private ArrayList<Athlete> athletes = new ArrayList<>();
@@ -123,9 +129,6 @@ public class EvenementController {
         dao.refreshDatabase();
         initData(dao);
 
-        for (Evenement evenement : evenements) {
-            //System.out.println(evenement.getDate_Heure());
-        }
         DisplayData();
     }
 
@@ -140,6 +143,65 @@ public class EvenementController {
     private void CloseWindow(AnchorPane anchorPane) {
         Stage stage = (Stage) anchorPane.getScene().getWindow();
         stage.close();
+    }
+
+    private boolean ValidAthlete(Connection connection, String fullName) throws SQLException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean isValid = false;
+
+        try {
+            String[] nameParts = fullName.split(" ");
+            if (nameParts.length != 2) {
+                return false;
+            }
+            String prenom = nameParts[0];
+            String nom = nameParts[1];
+
+            String query = "SELECT COUNT(*) AS count FROM Athlete WHERE Prenom = ? AND Nom = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setString(1, prenom);
+            stmt.setString(2, nom);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                isValid = count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+        return isValid;
+    }
+
+    private int getAthleteId(Connection connection, String fullName) throws SQLException {
+        String[] nameParts = fullName.split(" ");
+        if (nameParts.length != 2) {
+            throw new IllegalArgumentException("Invalid full name format. Expected 'FirstName LastName'.");
+        }
+        String prenom = nameParts[0];
+        String nom = nameParts[1];
+
+        String query = "SELECT IdAthlete FROM Athlete WHERE Prenom = ? AND Nom = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, prenom);
+            statement.setString(2, nom);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("IdAthlete");
+                } else {
+                    throw new SQLException("Athlete not found: " + fullName);
+                }
+            }
+        }
     }
 
 
@@ -162,6 +224,7 @@ public class EvenementController {
             Parent root = loader.load();
             EvenementController controller = loader.getController();
             controller.setDetails(evenement);
+            controller.setIdEvenement(evenement.getIdEvenement());
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
             Stage EvenementDetailsWindow = new Stage();
@@ -222,6 +285,8 @@ public class EvenementController {
     public void AddParticipantWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Evenement/AddParticipant.fxml"));
         Parent root = loader.load();
+        EvenementController controller = loader.getController();
+        controller.setIdEvenement(this.IdEvenement);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/View/style.css").toExternalForm());
         Stage AddParticipantWindow = new Stage();
@@ -229,9 +294,49 @@ public class EvenementController {
         AddParticipantWindow.getIcons().add(new Image(getClass().getResourceAsStream("/View/Image/logoJO2024simple.png")));
         AddParticipantWindow.setTitle("Ajouter un participant");
         AddParticipantWindow.show();
+    }
 
-        if (AthletesCombobox != null) {
-            AthletesCombobox.getItems().addAll(athletes); // JE N'ARRIVE PAS A METTRE DES DONNEES DEDANS, L'ATTRIBUTION DES ATHLETES A UN EVENEMENT EST DONC COMPLIQUEE
+    public void AddParticipantClear() {
+        AddParticipant_Athlete.clear();
+    }
+
+    public void AddParticipantGetData() throws SQLException {
+        Connection connection = dao.getConnection();
+
+        String athlete = AddParticipant_Athlete.getText();
+
+        if (!athlete.isEmpty()) {
+            if (ValidAthlete(connection, athlete)) {
+                AddParticipant(IdEvenement, athlete);
+            } else {
+                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Athlète invalide", "L'athlète indiqué n'est pas présent dans la base de données.");
+            }
+        } else {
+            AlertMessage(Alert.AlertType.ERROR, "Erreur", "Données incompètes", "Merci de remplir tous les champs.");
+        }
+    }
+
+    public void AddParticipant(int idevenement, String athlete) throws SQLException {
+        Connection connection = dao.getConnection();
+        int idathlete = getAthleteId(connection, athlete);
+        String query = "INSERT INTO Evenement_Athlete (Evenement_Id, Athlete_Id) VALUES (?,?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, idevenement);
+            statement.setInt(2, idathlete);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                AddParticipantClear();
+                AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
+                CloseWindow(AddParticipant);
+                RefreshTable();
+            } else {
+                AlertMessage(Alert.AlertType.ERROR, "Erreur", "Échec de l'enregistrement", "Impossible d'insérer les données.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AthleteController {
     @FXML
@@ -130,9 +131,6 @@ public class AthleteController {
         dao.refreshDatabase();
         initData(dao);
 
-        for (Athlete athlete : athletes) {
-            //System.out.println(athlete.getNom());
-        }
         DisplayData();
     }
 
@@ -444,10 +442,6 @@ public class AthleteController {
     }
 
     public void EditAthlete2(String nom, String prenom, String pays, String sexe, String naissance, String sport, String originalNom, String originalPrenom) throws SQLException {
-        System.out.println("à faire");
-        CloseWindow(EditAthlete2);
-
-        /*
         Connection connection = dao.getConnection();
         String querySelect = "SELECT * FROM Athlete WHERE Nom = ? AND Prenom = ?";
 
@@ -459,7 +453,6 @@ public class AthleteController {
             if (resultSet.next()) {
                 int idAthlete = resultSet.getInt("IdAthlete");
 
-                // Mettre à jour uniquement les champs modifiés
                 StringBuilder queryUpdate = new StringBuilder("UPDATE Athlete SET ");
                 List<Object> parameters = new ArrayList<>();
 
@@ -477,17 +470,12 @@ public class AthleteController {
                     queryUpdate.append("Prenom = ?, ");
                     parameters.add(originalPrenom);
                 }
-                // Ajoutez d'autres conditions pour les autres champs ici
 
-                // Supprimez la dernière virgule
                 queryUpdate.setLength(queryUpdate.length() - 2);
-
-                // Ajoutez la clause WHERE
                 queryUpdate.append(" WHERE IdAthlete = ?");
                 parameters.add(idAthlete);
 
                 try (PreparedStatement updateStatement = connection.prepareStatement(queryUpdate.toString())) {
-                    // Définissez les paramètres
                     for (int i = 0; i < parameters.size(); i++) {
                         Object parameter = parameters.get(i);
                         if (parameter instanceof String) {
@@ -501,21 +489,20 @@ public class AthleteController {
 
                     updateStatement.executeUpdate();
 
-                    System.out.println("Modification effectuée avec succès !");
+                    AlertMessage(Alert.AlertType.INFORMATION, "Enregistrement effectué", "Enregistrement effectué !", "");
+                    EditAthleteClear2();
+                    CloseWindow(EditAthlete2);
+                    RefreshTable();
                 } catch (SQLException e) {
                     System.err.println(e.getMessage());
                     throw e;
                 }
-            } else {
-                System.out.println("Aucun athlète trouvé avec le nom '" + originalNom + "' et le prénom '" + originalPrenom + "'.");
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw e;
         }
-
-         */
-    }
+    } // ERREUR
 
 
 
